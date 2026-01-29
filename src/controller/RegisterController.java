@@ -31,21 +31,23 @@ public class RegisterController {
     @FXML
     private ToggleGroup userTypeGroup;
 
-    private AuthService authService = new AuthService();
-
     @FXML
     private void handleRegister() {
         boolean isDoctor = doctorRadio.isSelected();
 
-        authService.register(
+        if (AuthService.register(
                 firstNameField.getText(),
                 lastNameField.getText(),
                 phoneField.getText(),
                 emailField.getText(),
                 peselField.getText(),
                 passwordField.getText(),
-                confirmPasswordField.getText());
-        SceneManager.showLogin();
+                confirmPasswordField.getText(),
+                isDoctor
+        ))
+        {
+            SceneManager.showLogin();
+        }
     }
 
     @FXML

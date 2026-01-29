@@ -2,8 +2,6 @@ package service;
 
 public class ProfileService {
 
-    private static ProfileService instance;
-
     private static String id = "";
     private static String firstName = "";
     private static String lastName = "";
@@ -14,13 +12,7 @@ public class ProfileService {
 
     private ProfileService() {}
 
-    public static ProfileService getInstance() {
-        if (instance == null) {
-            instance = new ProfileService();
-        }
-        return instance;
-    }
-    public void setProfile(String id, String firstName, String lastName, String pesel, String phone, String email, boolean isDoctor) 
+    public static void setProfile(String id, String firstName, String lastName, String pesel, String phone, String email, boolean isDoctor) 
     {
         ProfileService.id = id;
         ProfileService.firstName = firstName;
@@ -30,7 +22,7 @@ public class ProfileService {
         ProfileService.email = email;
         ProfileService.isDoctor = isDoctor;
     }
-    public void clearProfile() 
+    public static void clearProfile() 
     {
         ProfileService.id = "";
         ProfileService.firstName = "";

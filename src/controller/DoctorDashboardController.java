@@ -25,12 +25,10 @@ public class DoctorDashboardController {
     @FXML
     private TableView availabilityTable;
 
-    private ProfileService profileService = ProfileService.getInstance();
-
     @FXML
     private void initialize() {
 
-        welcomeLabel.setText("Witaj, Dr. " + profileService.getLastName());
+        welcomeLabel.setText("Witaj, Dr. " + ProfileService.getLastName());
 
 
         loadTodayAppointments();
@@ -98,6 +96,6 @@ public class DoctorDashboardController {
     private void loadProfileInfo() {
 
         profileInfoLabel.setText(
-                "Imie: Dr. " + profileService.getLastName());
+                "Imie: Dr. " + ProfileService.getLastName());
     }
 }

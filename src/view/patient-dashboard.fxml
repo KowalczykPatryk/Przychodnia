@@ -26,10 +26,12 @@
                     <Label text="Moje Wizyty" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="appointmentsTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="ID Wizyty" prefWidth="75"/>
                             <TableColumn text="Data" prefWidth="120"/>
-                            <TableColumn text="Godzina" prefWidth="100"/>
-                            <TableColumn text="Lekarz" prefWidth="150"/>
-                            <TableColumn text="Specjalizacja" prefWidth="150"/>
+                            <TableColumn text="Godzina Rozpoczęcia" prefWidth="100"/>
+                            <TableColumn text="Godzina Zakończenia" prefWidth="100"/>
+                            <TableColumn text="Lekarz Imię" prefWidth="75"/>
+                            <TableColumn text="Lekarz Nazwisko" prefWidth="75"/>
                             <TableColumn text="Status" prefWidth="100"/>
                         </columns>
                     </TableView>
@@ -42,12 +44,14 @@
                     <Label text="Lekarze" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="doctorsTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="ID Lekarza" prefWidth="75"/>
                             <TableColumn text="Imie" prefWidth="120"/>
                             <TableColumn text="Nazwisko" prefWidth="100"/>
                             <TableColumn text="Specjalizacja" prefWidth="150"/>
                         </columns>
                     </TableView>
-                    <Button text="Sprawdź terminy" onAction="#handleCheckAvailability"/>
+                    
+                    <Button text="Zarezerwuj termin" onAction="#handleBookAppointment"/>
                 </VBox>
             </Tab>
             
@@ -107,7 +111,7 @@
  
             <Tab text="Mój Profil">
                 <VBox spacing="10" style="-fx-padding: 20;">
-                    <Label text="Informacje o profilu" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Label text="Informacje" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <Label fx:id="profileInfoLabel" />
                     <Button text="Edytuj profil" onAction="#handleEditProfile"/>
                 </VBox>

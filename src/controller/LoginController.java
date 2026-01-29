@@ -7,6 +7,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import java.sql.SQLException;
+import java.util.Map;
 
 import service.AuthService;
 import service.ProfileService;
@@ -30,8 +31,6 @@ public class LoginController
     @FXML
     private ToggleGroup userTypeGroup;
 
-    private AuthService authService = new AuthService();
-    private ProfileService profileService = ProfileService.getInstance();
     private DBService dbService;
 
     public LoginController() throws SQLException {
@@ -41,21 +40,36 @@ public class LoginController
     @FXML
     private void handleLogin() 
     {
-        if (authService.login(
+        if (AuthService.login(
             firstNameField.getText(), 
             lastNameField.getText(),
             peselField.getText(),
             passwordField.getText(),
             doctorRadio.isSelected())
-            ) 
+        ) 
         {
-            profileService.setProfile(
-                "",
+            Map<String, String> profileData;
+            try
+            {
+                profileData = dbService.loadProfileData(
+                    firstNameField.getText(), 
+                    lastNameField.getText(), 
+                    peselField.getText(),
+                    doctorRadio.isSelected()
+                );
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+                return;
+            }
+            ProfileService.setProfile(
+                profileData.get("id"),
                 firstNameField.getText(), 
                 lastNameField.getText(), 
                 peselField.getText(),
-                "",
-                "",
+                profileData.get("phone"),
+                profileData.get("email"),
                 doctorRadio.isSelected()
             );
 

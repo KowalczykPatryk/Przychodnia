@@ -1,9 +1,17 @@
 package controller;
 
 import app.SceneManager;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import service.DBService;
+import java.sql.SQLException;
+import java.util.List;
 
 import service.ProfileService;
 
@@ -14,28 +22,43 @@ public class PatientDashboardController {
     @FXML
     private Label profileInfoLabel;
     @FXML
-    private TableView appointmentsTable;
+    private TableView<List<String>> appointmentsTable;
     @FXML
-    private TableView availableDoctorsTable;
+    private TableView<List<String>> doctorsTable;
     @FXML
-    private TableView medicalHistoryTable;
-
-    private ProfileService profileService = ProfileService.getInstance();
+    private TableView<List<String>> prescriptionsTable;
+    @FXML
+    private TableView<List<String>> medicationHistoryTable;
+    @FXML
+    private TableView<List<String>> diseaseHistoryTable;
+    @FXML
+    private TableView<List<String>> allergyHistoryTable;
 
     @FXML
     private void initialize() {
+        welcomeLabel.setText("Witaj, " + ProfileService.getFirstName() + " " + ProfileService.getLastName());
 
-        welcomeLabel.setText("Witaj, " + profileService.getFirstName() + " " + profileService.getLastName());
-        
-        loadAppointments();
-        loadAvailableDoctors();
-        loadMedicalHistory();
-        loadProfileInfo();
+        setupDoctorsTable();
+
+        try {
+            loadAppointments();
+            loadAvailableDoctors();
+            loadProfileInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupDoctorsTable() {
+        ((TableColumn<List<String>, String>) doctorsTable.getColumns().get(0)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(0)));
+        ((TableColumn<List<String>, String>) doctorsTable.getColumns().get(1)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(1)));
+        ((TableColumn<List<String>, String>) doctorsTable.getColumns().get(2)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2)));
+        ((TableColumn<List<String>, String>) doctorsTable.getColumns().get(3)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(3)));
     }
 
     @FXML
     private void handleLogout() {
-        profileService.clearProfile();
+        ProfileService.clearProfile();
         SceneManager.showLogin();
     }
 
@@ -46,7 +69,12 @@ public class PatientDashboardController {
 
     @FXML
     private void handleBookAppointment() {
-        System.out.println("Book appointment clicked");
+        List<String> selectedDoctor = doctorsTable.getSelectionModel().getSelectedItem();
+        if (selectedDoctor != null) 
+        {
+            String doctorId = selectedDoctor.get(0);
+        }
+
     }
 
     @FXML
@@ -61,27 +89,24 @@ public class PatientDashboardController {
         System.out.println("Check availability clicked");
     }
 
-    private void loadAppointments() {
-
-        System.out.println("Loading patient appointments...");
+    private void loadAppointments() throws SQLException {
+        DBService dbService = DBService.getInstance();
+        ObservableList<List<String>> data = FXCollections.observableArrayList(dbService.loadAppointmentsForPatient(Integer.parseInt(ProfileService.getId())));
+        appointmentsTable.setItems(data);
     }
 
-    private void loadAvailableDoctors() {
-
-        System.out.println("Loading available doctors...");
-    }
-
-    private void loadMedicalHistory() {
-
-        System.out.println("Loading medical history...");
+    private void loadAvailableDoctors() throws SQLException {
+        DBService dbService = DBService.getInstance();
+        ObservableList<List<String>> data = FXCollections.observableArrayList(dbService.loadAvailableDoctors());
+        doctorsTable.setItems(data);
     }
 
     private void loadProfileInfo() {
 
-        profileInfoLabel.setText("Imie: " + profileService.getFirstName() +
-                                 "\nNazwisko" + profileService.getLastName() + 
-                                 "\nPESEL: " + profileService.getPesel() + 
-                                 "\nTelefon: " + profileService.getPhone() + 
-                                 "\nEmail: " + profileService.getEmail());
+        profileInfoLabel.setText("Imie: " + ProfileService.getFirstName() +
+                "\nNazwisko: " + ProfileService.getLastName() +
+                "\nPESEL: " + ProfileService.getPesel() +
+                "\nTelefon: " + ProfileService.getPhone() +
+                "\nEmail: " + ProfileService.getEmail());
     }
 }

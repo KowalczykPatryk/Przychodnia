@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.DoctorDashboardController">
+    
+    <top>
+        <VBox style="-fx-padding: 10; -fx-background-color: #4CAF50;">
+            <Label fx:id="welcomeLabel" text="Witaj, Dr." style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Button text="Wyloguj się" onAction="#handleLogout" style="-fx-background-color: white; -fx-text-fill: #4CAF50;"/>
+        </VBox>
+    </top>
+    
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            
+            <Tab text="Wizyty">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <Label text="Wizyty" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <TableView fx:id="appointmentsTable" prefHeight="400">
+                        <columns>
+                            <TableColumn text="Data" prefWidth="120"/>
+                            <TableColumn text="Godzina Rozpoczęcia" prefWidth="100"/>
+                            <TableColumn text="Godzina Zakończenia" prefWidth="100"/>
+                            <TableColumn text="Imię Pacjenta" prefWidth="150"/>
+                            <TableColumn text="Nazwisko Pacjenta" prefWidth="150"/>
+                            <TableColumn text="PESEL" prefWidth="120"/>
+                            <TableColumn text="Telefon" prefWidth="120"/>
+                            <TableColumn text="Status" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Rozpocznij wizytę" onAction="#handleStartConsultation"/>
+                </VBox>
+            </Tab>
+            
+            <Tab text="Moi Pacjenci">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <Label text="Lista Pacjentów" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <TableView fx:id="patientsTable" prefHeight="400">
+                        <columns>
+                            <TableColumn text="Imię Pacjenta" prefWidth="200"/>
+                            <TableColumn text="Nazwisko Pacjenta" prefWidth="200"/>
+                            <TableColumn text="PESEL" prefWidth="120"/>
+                            <TableColumn text="Ostatnia Wizyta" prefWidth="120"/>
+                            <TableColumn text="Następna Wizyta" prefWidth="120"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Zobacz historię pacjenta" onAction="#handleViewPatientHistory"/>
+                </VBox>
+            </Tab>
+            
+            <Tab text="Mój Profil">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <Label text="Profil Lekarza" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Label fx:id="profileInfoLabel" />
+                    <Button text="Dodaj Specjalizację" onAction="#handleAddSpecialization"/>
+                </VBox>
+            </Tab>
+            
+        </TabPane>
+    </center>
+    
+</BorderPane>

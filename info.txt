@@ -1,0 +1,5 @@
+ssh -L 55432:localhost:5432 3kowalczykpa@pascal.fis.agh.edu.pl
+
+javac -d bin -cp "lib/postgresql-42.7.8.jar:lib/openjfx-17.0.17_linux-x64_bin-sdk/javafx-sdk-17.0.17/lib/*" $(find src -name "*.java")
+cp -r src/view bin/
+java --module-path lib/openjfx-17.0.17_linux-x64_bin-sdk/javafx-sdk-17.0.17/lib --add-modules javafx.controls,javafx.fxml -cp "bin:lib/postgresql-42.7.8.jar" app.Main

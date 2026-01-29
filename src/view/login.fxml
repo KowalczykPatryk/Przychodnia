@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.LoginController">
+
+  <Label text="Strona Logowania" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+  <Label text="Zaloguj się jako:"/>
+  <HBox spacing="20" alignment="CENTER">
+    <RadioButton fx:id="patientRadio" text="Pacjent" selected="true">
+      <toggleGroup>
+        <ToggleGroup fx:id="userTypeGroup"/>
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="doctorRadio" text="Lekarz" toggleGroup="$userTypeGroup"/>
+  </HBox>
+
+  <TextField fx:id="firstNameField" promptText="Imię"/>
+  <TextField fx:id="lastNameField" promptText="Nazwisko"/>
+  <TextField fx:id="peselField" promptText="PESEL"/>
+  <PasswordField fx:id="passwordField" promptText="Hasło"/>
+
+  <Button text="Zaloguj się" onAction="#handleLogin"/>
+
+  <Label text="Nie masz konta?"/>
+  <Button text="Zarejestruj się" onAction="#goToRegister"/>
+
+</VBox>

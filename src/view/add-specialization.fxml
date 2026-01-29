@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ComboBox?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AddSpecializationController">
+
+    <HBox>
+        <Button text="Powrót do panelu lekarza" onAction="#goToDoctorDashboard"/>
+    </HBox>
+
+    <Label text="Nowa Specjalizacja" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <ComboBox fx:id="nameField" promptText="Nazwa specjalizacji"/>
+    <TextField fx:id="descriptionField" promptText="Opis specjalizacji"/>
+    <TextField fx:id="durationField" promptText="Czas trwania (ile lat)"/>
+    <Button text="Dodaj specjalizację" onAction="#addSpecialization"/>
+</VBox>

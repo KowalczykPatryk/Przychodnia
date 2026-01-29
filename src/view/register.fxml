@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.RegisterController">
+
+  <Label text="Strona Rejestracji" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+  <Label text="Zarejestruj się jako:"/>
+  <HBox spacing="20" alignment="CENTER">
+    <RadioButton fx:id="patientRadio" text="Pacjent" selected="true">
+      <toggleGroup>
+        <ToggleGroup fx:id="userTypeGroup"/>
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="doctorRadio" text="Lekarz" toggleGroup="$userTypeGroup"/>
+  </HBox>
+
+  <TextField fx:id="firstNameField" promptText="Imię"/>
+  <TextField fx:id="lastNameField" promptText="Nazwisko"/>
+  <TextField fx:id="phoneField" promptText="Numer telefonu"/>
+  <TextField fx:id="emailField" promptText="Email"/>
+  <TextField fx:id="peselField" promptText="PESEL"/>
+  <PasswordField fx:id="passwordField" promptText="Hasło"/>
+  <PasswordField fx:id="confirmPasswordField" promptText="Potwierdź hasło"/>
+
+  <Button text="Zarejestruj się" onAction="#handleRegister"/>
+  <Label text="Masz już konto?"/>
+  <Button text="Zaloguj się" onAction="#goToLogin"/>
+
+</VBox>

@@ -72,8 +72,11 @@ public class DoctorDashboardController {
 
     @FXML
     private void handleStartConsultation() {
-
-        System.out.println("Start consultation clicked");
+        List<String> selectedAppointment = appointmentsTable.getSelectionModel().getSelectedItem();
+        if (selectedAppointment != null && !selectedAppointment.getLast().equals("Anulowana") && !selectedAppointment.getLast().equals("Zakończona")) {
+            int appointmentId = Integer.parseInt(selectedAppointment.get(0));
+            SceneManager.showConsultation(appointmentId);
+        }
     }
 
     @FXML

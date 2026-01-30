@@ -14,7 +14,7 @@ public class Main extends Application
         SceneManager.init(stage);
         SceneManager.showLogin();
         stage.setWidth(800);
-        stage.setHeight(600);
+        stage.setHeight(800);
         stage.setTitle("Przychodnia");
         stage.show();
     }

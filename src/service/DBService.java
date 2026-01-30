@@ -199,9 +199,9 @@ public class DBService {
                 appointment.add(rs.getString("data"));
                 appointment.add(rs.getString("godzina_rozpoczecia"));
                 appointment.add(rs.getString("godzina_zakonczenia"));
-                appointment.add(rs.getString("status"));
                 appointment.add(rs.getString("lekarz_imie"));
                 appointment.add(rs.getString("lekarz_nazwisko"));
+                appointment.add(rs.getString("status"));
                 appointments.add(appointment);
             }
         }
@@ -228,5 +228,121 @@ public class DBService {
             }
         }
         return doctors;
+    }
+    public boolean bookAppointment(int doctorId, int patientId, String date, String startTime, String endTime) throws SQLException 
+    {
+        String sql = "INSERT INTO wizyta (lekarz_id, pacjent_id, data, godzina_rozpoczecia, godzina_zakonczenia, status) " +
+                     "VALUES (?, ?, ?, ?, ?, 'Umówiona')";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, doctorId);
+            pstmt.setInt(2, patientId);
+            pstmt.setDate(3, java.sql.Date.valueOf(date));
+            pstmt.setTime(4, Time.valueOf(startTime + ":00"));
+            pstmt.setTime(5, Time.valueOf(endTime + ":00"));
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+    public boolean cancelAppointment(int appointmentId) throws SQLException 
+    {
+        String sql = "UPDATE wizyta SET status = 'Anulowana' WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, appointmentId);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+    public List<List<String>> loadPrescriptionsForPatient(int patientId) throws SQLException 
+    {
+        List<List<String>> prescriptions = new ArrayList<>();
+        String sql = "SELECT r.id, r.numer_recepty, r.data_wystawienia, r.data_ważnosci, r.status " +
+                     "FROM recepta r " +
+                     "WHERE r.pacjent_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                List<String> prescription = new ArrayList<>();
+                prescription.add(rs.getString("id"));
+                prescription.add(rs.getString("numer_recepty"));
+                prescription.add(rs.getString("data_wystawienia"));
+                prescription.add(rs.getString("data_ważnosci"));
+                prescription.add(rs.getString("status"));
+                prescriptions.add(prescription);
+            }
+        }
+        return prescriptions;
+    }
+    public List<List<String>> loadMedicationHistoryForPatient(int patientId) throws SQLException 
+    {
+        List<List<String>> medicationHistory = new ArrayList<>();
+        String sql = "SELECT l.id, l.nazwa, l.substancja_czynna " +
+                     "FROM lek l " +
+                     "JOIN pacjent_lek pl ON l.id = pl.lek_id " +
+                     "WHERE pl.pacjent_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                List<String> medication = new ArrayList<>();
+                medication.add(rs.getString("id"));
+                medication.add(rs.getString("nazwa"));
+                medication.add(rs.getString("substancja_czynna"));
+                medicationHistory.add(medication);
+            }
+        }
+        return medicationHistory;
+    }
+    public List<List<String>> loadDiseaseHistoryForPatient(int patientId) throws SQLException 
+    {
+        List<List<String>> diseaseHistory = new ArrayList<>();
+        String sql = "SELECT c.id, c.nazwa, c.opis, c.czy_przewlekla, c.czy_zakazna " +
+                     "FROM choroba c " +
+                     "JOIN pacjent_choroba pc ON c.id = pc.choroba_id "+
+                     "WHERE pc.pacjent_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                List<String> disease = new ArrayList<>();
+                disease.add(rs.getString("id"));
+                disease.add(rs.getString("nazwa"));
+                disease.add(rs.getString("opis"));
+                disease.add(rs.getString("czy_przewlekla"));
+                disease.add(rs.getString("czy_zakazna"));
+                diseaseHistory.add(disease);
+            }
+        }
+        return diseaseHistory;
+    }
+    public List<List<String>> loadAllergyHistoryForPatient(int patientId) throws SQLException 
+    {
+        List<List<String>> allergyHistory = new ArrayList<>();
+        String sql = "SELECT a.id, a.nazwa, a.opis " +
+                     "FROM alergia a " +
+                     "JOIN pacjent_alergia pa ON a.id = pa.alergia_id "+
+                     "WHERE pa.pacjent_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                List<String> allergy = new ArrayList<>();
+                allergy.add(rs.getString("id"));
+                allergy.add(rs.getString("nazwa"));
+                allergy.add(rs.getString("opis"));
+                allergyHistory.add(allergy);
+            }
+        }
+        return allergyHistory;
     }
 }

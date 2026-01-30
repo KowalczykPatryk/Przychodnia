@@ -2,12 +2,15 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.PatientDashboardController">
     
@@ -27,12 +30,12 @@
                     <TableView fx:id="appointmentsTable" prefHeight="400">
                         <columns>
                             <TableColumn text="ID Wizyty" prefWidth="75"/>
-                            <TableColumn text="Data" prefWidth="120"/>
+                            <TableColumn text="Data" prefWidth="75"/>
                             <TableColumn text="Godzina Rozpoczęcia" prefWidth="100"/>
                             <TableColumn text="Godzina Zakończenia" prefWidth="100"/>
-                            <TableColumn text="Lekarz Imię" prefWidth="75"/>
-                            <TableColumn text="Lekarz Nazwisko" prefWidth="75"/>
-                            <TableColumn text="Status" prefWidth="100"/>
+                            <TableColumn text="Lekarz Imię" prefWidth="110"/>
+                            <TableColumn text="Lekarz Nazwisko" prefWidth="120"/>
+                            <TableColumn text="Status" prefWidth="90"/>
                         </columns>
                     </TableView>
                     <Button text="Anuluj wybraną wizytę" onAction="#handleCancelAppointment"/>
@@ -42,7 +45,7 @@
             <Tab text="Lekarze">
                 <VBox spacing="10" style="-fx-padding: 20;">
                     <Label text="Lekarze" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-                    <TableView fx:id="doctorsTable" prefHeight="400">
+                    <TableView fx:id="doctorsTable" prefHeight="300">
                         <columns>
                             <TableColumn text="ID Lekarza" prefWidth="75"/>
                             <TableColumn text="Imie" prefWidth="120"/>
@@ -50,6 +53,25 @@
                             <TableColumn text="Specjalizacja" prefWidth="150"/>
                         </columns>
                     </TableView>
+                    
+                    <Label text="Wybierz termin wizyty:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    
+                    <HBox spacing="20">
+                        <VBox spacing="5">
+                            <Label text="Data wizyty:"/>
+                            <DatePicker fx:id="appointmentDatePicker" prefWidth="150"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Godzina rozpoczęcia:"/>
+                            <TextField fx:id="startTimeField" promptText="HH:MM" prefWidth="100"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Godzina zakończenia:"/>
+                            <TextField fx:id="endTimeField" promptText="HH:MM" prefWidth="100"/>
+                        </VBox>
+                    </HBox>
                     
                     <Button text="Zarezerwuj termin" onAction="#handleBookAppointment"/>
                 </VBox>
@@ -60,6 +82,7 @@
                     <Label text="Recepty" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="prescriptionsTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="Id" prefWidth="150"/>
                             <TableColumn text="Number Recepty" prefWidth="120"/>
                             <TableColumn text="Data Wystawienia" prefWidth="150"/>
                             <TableColumn text="Data Ważności" prefWidth="200"/>
@@ -74,9 +97,9 @@
                     <Label text="Historia Leków" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="medicationHistoryTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="Id" prefWidth="150"/>
                             <TableColumn text="Nazwa" prefWidth="120"/>
                             <TableColumn text="Substancja czynna" prefWidth="150"/>
-                            <TableColumn text="Data" prefWidth="150"/>
                         </columns>
                     </TableView>
                 </VBox>
@@ -87,6 +110,7 @@
                     <Label text="Historia Chorób" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="diseaseHistoryTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="Id" prefWidth="150"/>
                             <TableColumn text="Nazwa Choroby" prefWidth="120"/>
                             <TableColumn text="Opis" prefWidth="120"/>
                             <TableColumn text="Czy przewlekła" prefWidth="150"/>
@@ -101,6 +125,7 @@
                     <Label text="Alergie" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="allergyHistoryTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="Id" prefWidth="150"/>
                             <TableColumn text="Nazwa" prefWidth="120"/>
                             <TableColumn text="Opis" prefWidth="120"/>
                         </columns>

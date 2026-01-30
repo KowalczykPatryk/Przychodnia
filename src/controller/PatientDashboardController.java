@@ -61,7 +61,7 @@ public class PatientDashboardController {
             loadDiseaseHistory();
             loadAllergyHistory();
             loadProfileInfo();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -117,7 +117,7 @@ public class PatientDashboardController {
 
     @FXML
     private void handleEditProfile() {
-        System.out.println("Edit profile clicked");
+        SceneManager.showEditProfile();
     }
 
     @FXML

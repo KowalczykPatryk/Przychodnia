@@ -26,9 +26,11 @@
                     <Label text="Wizyty" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="appointmentsTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="Id Wizyty" prefWidth="80"/>
                             <TableColumn text="Data" prefWidth="120"/>
                             <TableColumn text="Godzina Rozpoczęcia" prefWidth="100"/>
                             <TableColumn text="Godzina Zakończenia" prefWidth="100"/>
+                            <TableColumn text="Id Pacjenta" prefWidth="100"/>
                             <TableColumn text="Imię Pacjenta" prefWidth="150"/>
                             <TableColumn text="Nazwisko Pacjenta" prefWidth="150"/>
                             <TableColumn text="PESEL" prefWidth="120"/>
@@ -45,14 +47,13 @@
                     <Label text="Lista Pacjentów" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="patientsTable" prefHeight="400">
                         <columns>
+                            <TableColumn text="Id Pacjenta" prefWidth="100"/>
                             <TableColumn text="Imię Pacjenta" prefWidth="200"/>
                             <TableColumn text="Nazwisko Pacjenta" prefWidth="200"/>
                             <TableColumn text="PESEL" prefWidth="120"/>
-                            <TableColumn text="Ostatnia Wizyta" prefWidth="120"/>
-                            <TableColumn text="Następna Wizyta" prefWidth="120"/>
                         </columns>
                     </TableView>
-                    <Button text="Zobacz historię pacjenta" onAction="#handleViewPatientHistory"/>
+                    <Button text="Edytuj historię pacjenta" onAction="#handleEditPatientHistory"/>
                 </VBox>
             </Tab>
             

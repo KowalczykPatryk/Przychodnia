@@ -345,4 +345,91 @@ public class DBService {
         }
         return allergyHistory;
     }
+    public void updatePatientData(int patientId, String firstName, String lastName, String phone, String email) throws SQLException 
+    {
+        String sql = "UPDATE pacjent SET imie = ?, nazwisko = ?, telefon = ?, email = ? WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setString(1, firstName);
+            pstmt.setString(2, lastName);
+            pstmt.setString(3, phone);
+            pstmt.setString(4, email);
+            pstmt.setInt(5, patientId);
+            pstmt.executeUpdate();
+        }
+    }
+    public List<List<String>> loadSpecializationsForDoctor(int doctorId) throws SQLException 
+    {
+        String sql = "SELECT s.nazwa, ls.opis, ls.czas_trwania " +
+                     "FROM lekarz_specjalizacja ls " +
+                     "JOIN specjalizacja s ON ls.specjalizacja_id = s.id " +
+                     "WHERE ls.lekarz_id = ?";
+        List<List<String>> specializations = new ArrayList<>();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, doctorId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                List<String> specialization = new ArrayList<>();
+                specialization.add(rs.getString("nazwa"));
+                specialization.add(rs.getString("opis"));
+                specialization.add(rs.getString("czas_trwania"));
+                specializations.add(specialization);
+            }
+        }
+        return specializations;
+    }
+    public List<List<String>> loadAppointmentsForDoctor(int doctorId) throws SQLException 
+    {
+        List<List<String>> appointments = new ArrayList<>();
+        String sql = "SELECT w.id, w.data, w.godzina_rozpoczecia, w.godzina_zakonczenia, p.id AS pacjent_id, p.imie AS pacjent_imie, p.nazwisko AS pacjent_nazwisko, p.pesel, p.telefon, w.status " +
+                     "FROM wizyta w " +
+                     "JOIN pacjent p ON w.pacjent_id = p.id " +
+                     "WHERE w.lekarz_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, doctorId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                List<String> appointment = new ArrayList<>();
+                appointment.add(rs.getString("id"));
+                appointment.add(rs.getString("data"));
+                appointment.add(rs.getString("godzina_rozpoczecia"));
+                appointment.add(rs.getString("godzina_zakonczenia"));
+                appointment.add(rs.getString("pacjent_id"));
+                appointment.add(rs.getString("pacjent_imie"));
+                appointment.add(rs.getString("pacjent_nazwisko"));
+                appointment.add(rs.getString("pesel"));
+                appointment.add(rs.getString("telefon"));
+                appointment.add(rs.getString("status"));
+                appointments.add(appointment);
+            }
+        }
+        return appointments;
+    }
+    public List<List<String>> loadPatientsForDoctor(int doctorId) throws SQLException 
+    {
+        List<List<String>> patients = new ArrayList<>();
+        String sql = "SELECT DISTINCT p.id, p.imie, p.nazwisko, p.pesel " +
+                     "FROM pacjent p " +
+                     "JOIN wizyta w ON p.id = w.pacjent_id " +
+                     "WHERE w.lekarz_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, doctorId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                List<String> patient = new ArrayList<>();
+                patient.add(rs.getString("id"));
+                patient.add(rs.getString("imie"));
+                patient.add(rs.getString("nazwisko"));
+                patient.add(rs.getString("pesel"));
+                patients.add(patient);
+            }
+        }
+        return patients;
+    }
 }

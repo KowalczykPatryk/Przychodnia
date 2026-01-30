@@ -42,4 +42,7 @@ public class SceneManager {
     public static void showAddSpecialization() {
         setScene("add-specialization.fxml");
     }
+    public static void showEditProfile() {
+        setScene("edit-profile.fxml");
+    }
 }

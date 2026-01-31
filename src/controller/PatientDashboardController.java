@@ -102,11 +102,13 @@ public class PatientDashboardController {
         ((TableColumn<List<String>, String>) diseaseHistoryTable.getColumns().get(1)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(1)));
         ((TableColumn<List<String>, String>) diseaseHistoryTable.getColumns().get(2)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2)));
         ((TableColumn<List<String>, String>) diseaseHistoryTable.getColumns().get(3)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(3)));
+        ((TableColumn<List<String>, String>) diseaseHistoryTable.getColumns().get(4)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(4)));
     }
 
     private void setupAllergyHistoryTable() {
         ((TableColumn<List<String>, String>) allergyHistoryTable.getColumns().get(0)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(0)));
         ((TableColumn<List<String>, String>) allergyHistoryTable.getColumns().get(1)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(1)));
+        ((TableColumn<List<String>, String>) allergyHistoryTable.getColumns().get(2)).setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2)));
     }
 
     @FXML

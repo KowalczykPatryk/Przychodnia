@@ -65,6 +65,11 @@ public class ConsultationController {
 
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
+        try {
+            setLabels();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -161,5 +166,11 @@ public class ConsultationController {
         DBService dbService = DBService.getInstance();
         ObservableList<String> examinations = FXCollections.observableArrayList(dbService.loadExaminations());
         examinationComboBox.setItems(examinations);
+    }
+    private void setLabels() throws SQLException {
+        titleLabel.setText("Konsultacja - ID: " + appointmentId);
+        DBService dbService = DBService.getInstance();
+        String patientName = dbService.getPatientNameByAppointmentId(appointmentId);
+        patientNameLabel.setText("Pacjent: " + patientName);
     }
 }

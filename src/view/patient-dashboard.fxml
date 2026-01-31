@@ -12,7 +12,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.PatientDashboardController">
+<BorderPane style="-fx-padding: 20px;" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.PatientDashboardController">
     
     <top>
         <VBox style="-fx-padding: 10; -fx-background-color: #2196F3;">
@@ -105,9 +105,9 @@
                 </VBox>
             </Tab>
 
-            <Tab text="Historia Chorób">
+            <Tab text="Choroby">
                 <VBox spacing="10" style="-fx-padding: 20;">
-                    <Label text="Historia Chorób" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Label text="Choroby" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="diseaseHistoryTable" prefHeight="400">
                         <columns>
                             <TableColumn text="Id" prefWidth="150"/>

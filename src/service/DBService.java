@@ -316,8 +316,18 @@ public class DBService {
                 disease.add(rs.getString("id"));
                 disease.add(rs.getString("nazwa"));
                 disease.add(rs.getString("opis"));
-                disease.add(rs.getString("czy_przewlekla"));
-                disease.add(rs.getString("czy_zakazna"));
+                boolean czy_przewlekla = rs.getBoolean("czy_przewlekla");
+                boolean czy_zakazna = rs.getBoolean("czy_zakazna");
+                if (czy_przewlekla) {
+                    disease.add("Tak");
+                } else {
+                    disease.add("Nie");
+                }
+                if (czy_zakazna) {
+                    disease.add("Tak");
+                } else {
+                    disease.add("Nie");
+                }
                 diseaseHistory.add(disease);
             }
         }
@@ -563,6 +573,137 @@ public class DBService {
         {
             pstmt.setString(1, status);
             pstmt.setInt(2, appointmentId);
+            pstmt.executeUpdate();
+        }
+    }
+    public String getPatientNameByAppointmentId(int appointmentId) throws SQLException {
+        String sql = "SELECT p.imie, p.nazwisko " +
+                     "FROM wizyta w " +
+                     "JOIN pacjent p ON w.pacjent_id = p.id " +
+                     "WHERE w.id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, appointmentId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) 
+            {
+                return rs.getString("imie") + " " + rs.getString("nazwisko");
+            } else {
+                return "Nie znaleziono imienia pacjenta";
+            }
+        }
+    }
+    public String getPatientNameById(int patientId) throws SQLException {
+        String sql = "SELECT imie, nazwisko FROM pacjent WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) 
+            {
+                return rs.getString("imie") + " " + rs.getString("nazwisko");
+            } else {
+                return "Nie znaleziono imienia pacjenta";
+            }
+        }
+    }
+    public List<String> getAllDiseases() throws SQLException {
+        List<String> diseases = new ArrayList<>();
+        String sql = "SELECT nazwa FROM choroba";
+        try (Statement stmt = conn.createStatement()) 
+        {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) 
+            {
+                diseases.add(rs.getString("nazwa"));
+            }
+        }
+        return diseases;
+    }
+    public List<String> getAllAllergies() throws SQLException {
+        List<String> allergies = new ArrayList<>();
+        String sql = "SELECT nazwa FROM alergia";
+        try (Statement stmt = conn.createStatement()) 
+        {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) 
+            {
+                allergies.add(rs.getString("nazwa"));
+            }
+        }
+        return allergies;
+    }
+    public List<String> getDiseasesByPatientId(int patientId) throws SQLException {
+        List<String> diseases = new ArrayList<>();
+        String sql = "SELECT c.nazwa " +
+                     "FROM choroba c " +
+                     "JOIN pacjent_choroba pc ON c.id = pc.choroba_id " +
+                     "WHERE pc.pacjent_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                diseases.add(rs.getString("nazwa"));
+            }
+        }
+        return diseases;
+    }
+    public List<String> getAllergiesByPatientId(int patientId) throws SQLException {
+        List<String> allergies = new ArrayList<>();
+        String sql = "SELECT a.nazwa " +
+                     "FROM alergia a " +
+                     "JOIN pacjent_alergia pa ON a.id = pa.alergia_id "+
+                     "WHERE pa.pacjent_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {            pstmt.setInt(1, patientId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) 
+            {
+                allergies.add(rs.getString("nazwa"));
+            }
+        }
+        return allergies;
+    }
+    public void addDiseaseToPatient(int patientId, String diseaseName) throws SQLException {
+        String sql = "INSERT INTO pacjent_choroba (pacjent_id, choroba_id) " +
+                     "VALUES (?, (SELECT id FROM choroba WHERE nazwa = ?))";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            pstmt.setString(2, diseaseName);
+            pstmt.executeUpdate();
+        }
+    }
+    public void removeDiseaseFromPatient(int patientId, String diseaseName) throws SQLException {
+        String sql = "DELETE FROM pacjent_choroba " +
+                     "WHERE pacjent_id = ? AND choroba_id = (SELECT id FROM choroba WHERE nazwa = ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            pstmt.setString(2, diseaseName);
+            pstmt.executeUpdate();
+        }
+    }
+    public void addAllergyToPatient(int patientId, String allergyName) throws SQLException {
+        String sql = "INSERT INTO pacjent_alergia (pacjent_id, alergia_id) " +
+                     "VALUES (?, (SELECT id FROM alergia WHERE nazwa = ?))";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            pstmt.setString(2, allergyName);
+            pstmt.executeUpdate();
+        }
+    }
+
+    public void removeAllergyFromPatient(int patientId, String allergyName) throws SQLException {
+        String sql = "DELETE FROM pacjent_alergia " +
+                     "WHERE pacjent_id = ? AND alergia_id = (SELECT id FROM alergia WHERE nazwa = ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setInt(1, patientId);
+            pstmt.setString(2, allergyName);
             pstmt.executeUpdate();
         }
     }

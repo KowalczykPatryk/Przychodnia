@@ -9,7 +9,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.RegisterController">
+<VBox spacing="10" style="-fx-padding: 20px;" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.RegisterController">
 
   <Label text="Strona Rejestracji" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 

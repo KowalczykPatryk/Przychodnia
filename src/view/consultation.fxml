@@ -10,7 +10,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.DatePicker?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.ConsultationController">
+<VBox spacing="10" style="-fx-padding: 20px;" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.ConsultationController">
 
     <HBox>
         <Button text="Powrót" onAction="#goToDoctorDashboard"/>

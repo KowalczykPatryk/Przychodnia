@@ -80,9 +80,12 @@ public class DoctorDashboardController {
     }
 
     @FXML
-    private void handleEditPatientHistory() {
-
-        System.out.println("View patient history clicked");
+    private void handleEditPatientMedicalData() {
+        List<String> selectedPatient = patientsTable.getSelectionModel().getSelectedItem();
+        if (selectedPatient != null) {
+            int patientId = Integer.parseInt(selectedPatient.get(0));
+            SceneManager.showEditPatientMedicalData(patientId);
+        }
     }
 
     @FXML

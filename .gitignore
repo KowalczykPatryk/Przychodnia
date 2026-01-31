@@ -25,7 +25,6 @@ replay_pid*
 
 bin/
 lib/
-KursView.java
-Przychodnia.iml
+*.iml
 .*
 !.gitignore

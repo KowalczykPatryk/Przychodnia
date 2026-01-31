@@ -10,7 +10,7 @@ public class DBService {
 
    private DBService() throws SQLException
    {
-       String url = "jdbc:postgresql://localhost:55432/" + ConnectionInfo.DBname;
+       String url = "jdbc:postgresql://" + ConnectionInfo.DBhost + ":" + ConnectionInfo.DBport + "/" + ConnectionInfo.DBname;
        conn = DriverManager.getConnection(url, ConnectionInfo.DBuser, ConnectionInfo.DBpass);
    }
 
